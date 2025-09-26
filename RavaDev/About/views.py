@@ -8,4 +8,4 @@ def about(request):
 
 def team_member(request, member_id):
     member = TeamMember.objects.filter(id=member_id)
-    return render(request, 'About/team_member.html.jinja', {'members': member})
+    return render(request, 'About/team_member.html', {'members': member})
