@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RavaDev    |    {% block appTitle %}Tytuł apki{% endblock %}    |    {% block moduleTitle %}Tytuł modułu{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>RavaDev</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% url 'Main:index' %}">Strona główna</a>
+                </li>
+                <li>
+                    <a href="#">O nas</a>
+                </li>
+                <li>
+                    <a href="#">Blog</a>
+                </li>
+                <li>
+                    <a href="#">Kontakt</a>
+                </li>
+                <li>
+                    <a href="#">Realizacje</a>
+                </li>
+                <li>
+                    <a href="#">Usługi</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <section>
+            <h3>
+                {% block appHeader %}Nagłówek aplikacji{% endblock %}
+            </h3>
+            <div>
+                <h5>
+                    {% block moduleHeader %}Nagłówek modułu{% endblock %}
+                </h5>
+                <span>
+                    {% block content %}
+                    {% endblock %}
+                </span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 RavaDev. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+</body>
+</html>
