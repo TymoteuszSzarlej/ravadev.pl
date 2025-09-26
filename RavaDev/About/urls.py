@@ -6,5 +6,5 @@ app_name = 'About'  # Opcjonalnie, ale zalecane dla namespacingu
 
 urlpatterns = [
     path('', views.about, name='about'),
-    path('member/<int:member_id>/', views.team_member, name='team_member'),
+    path("about/member/<int:member_id>/", views.team_member, name="team_member"),
 ]
