@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block appTitle %}
+Blog
+{% endblock %}
+
+{% block moduleTitle %}
+Post
+<strong>
+    {{post.title}}
+</strong>
+{% endblock %}
+
+{% block appHeader %}
+Blog
+{% endblock %}
+
+{% block moduleHeader %}
+Post
+<strong>
+    {{post.title}}
+</strong>
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {{post.title}}
+    </h2>
+    <section class="post content">
+        <div>
+            <p>
+                {{post.content}}
+            </p>
+        </div>
+    </section>
+    <section class="post image">
+        <div>
+            <img src="{{post.image.url}}">
+        </div>
+    </section>
+    <section class="post info">
+        <div>
+            <h4>
+                Kategoria
+            </h4>
+            <p>
+                {{post.category}}
+            </p>
+        </div>
+        <div>
+            <h4>
+                Data publikacji
+            </h4>
+            <p>
+                {{post.published_date}}
+            </p>
+        </div>
+        <div>
+            <h4>
+                Autor
+            </h4>
+            <p>
+                {{post.author}}
+            </p>
+        </div>
+        <div>
+            <h4>
+                Wyświetlenia
+            </h4>
+            <p>
+                {{post.views}}
+            </p>
+        </div>
+    </section>
+
+{% endblock %}
