@@ -1122,7 +1122,7 @@ footer {
 
 /* Sekcja treści */
 .post.content {
-    background: #ffffff;
+    background: #333;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -1157,7 +1157,7 @@ footer {
 
 /* Sekcja informacji */
 .post.info {
-    background: #f7fafc;
+    background: #222;
     padding: 1rem 1.5rem;
     border-radius: 8px;
     border-left: 4px solid #4299e1;
@@ -1173,3 +1173,22 @@ footer {
 .post.info .date {
     color: #a0aec0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,7 +16,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     published_date = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(upload_to='posts/', null=True, blank=True)  # USUŃ PRZECINEK
+    image = models.ImageField(upload_to='Blog/', null=True, blank=True)  # USUŃ PRZECINEK
     author = models.ForeignKey(TeamMember, on_delete=models.SET_NULL, null=True)  # USUŃ PRZECINEK
     views = models.IntegerField(default=0)
     

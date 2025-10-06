@@ -35,13 +35,30 @@
     </header>
 
     <main>
+        <!-- Ulepszone wyświetlanie wiadomości -->
         {% if messages %}
-            <ul class="messages">
+            <div class="messages-container">
                 {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    <div class="alert alert-{{ message.tags }} fade-in">
+                        <div class="alert-content">
+                            <span class="alert-icon">
+                                {% if message.tags == 'success' %}✅
+                                {% elif message.tags == 'error' %}❌
+                                {% elif message.tags == 'warning' %}⚠️
+                                {% elif message.tags == 'info' %}ℹ️
+                                {% elif message.tags == 'debug' %}🔧
+                                {% endif %}
+                            </span>
+                            <span class="alert-text">{{ message }}</span>
+                        </div>
+                        <button type="button" class="alert-close" onclick="this.parentElement.remove()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
+        
         <section>
             <h3>
                 {% block appHeader %}Nagłówek aplikacji{% endblock %}
@@ -61,5 +78,249 @@
     <footer>
         <p>© 2025 RavaDev. Wszelkie prawa zastrzeżone.</p>
     </footer>
+
+    <style>
+        /* Style dla wiadomości flash */
+        .messages-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .alert {
+            position: relative;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideInRight 0.3s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .alert.fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-right: 12px;
+        }
+
+        .alert-text {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 15px;
+            color: inherit;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+            line-height: 1;
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        /* Kolory dla różnych typów wiadomości */
+        .alert-success {
+            color: #0f5132;
+            background-color: #d1e7dd;
+            border-color: #badbcc;
+        }
+
+        .alert-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+        }
+
+        .alert-info {
+            color: #055160;
+            background-color: #cff4fc;
+            border-color: #b6effb;
+        }
+
+        .alert-debug {
+            color: #383d41;
+            background-color: #e2e3e5;
+            border-color: #d6d8db;
+        }
+
+        /* Animacje */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .messages-container {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+            
+            .alert {
+                padding: 12px 15px;
+            }
+            
+            .alert-icon {
+                font-size: 1.1em;
+                margin-right: 10px;
+            }
+            
+            .alert-close {
+                font-size: 1.3em;
+                margin-left: 10px;
+            }
+        }
+
+        /* Automatyczne znikanie po czasie (opcjonalne) */
+        .alert.auto-dismiss {
+            animation: slideInRight 0.3s ease-out, fadeOut 0.5s ease-in 4s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+    </style>
+
+    <script>
+        // Automatyczne zamykanie wiadomości po 5 sekundach
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            
+            alerts.forEach(alert => {
+                // Dodaj klasę dla automatycznego znikania (opcjonalne)
+                // alert.classList.add('auto-dismiss');
+                
+                // Automatyczne usuwanie po 5 sekundach
+                setTimeout(() => {
+                    if (alert.parentElement) {
+                        alert.style.opacity = '0';
+                        alert.style.transform = 'translateX(100%)';
+                        setTimeout(() => {
+                            if (alert.parentElement) {
+                                alert.remove();
+                            }
+                        }, 300);
+                    }
+                }, 5000);
+            });
+
+            // Obsługa kliknięcia przycisku zamknięcia
+            document.querySelectorAll('.alert-close').forEach(button => {
+                button.addEventListener('click', function() {
+                    const alert = this.closest('.alert');
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (alert.parentElement) {
+                            alert.remove();
+                        }
+                    }, 300);
+                });
+            });
+        });
+
+        // Funkcja do programowego wyświetlania wiadomości (dla przyszłego użycia)
+        function showFlashMessage(message, type = 'info') {
+            const container = document.querySelector('.messages-container') || createMessagesContainer();
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} fade-in`;
+            alert.innerHTML = `
+                <div class="alert-content">
+                    <span class="alert-icon">${getIconForType(type)}</span>
+                    <span class="alert-text">${message}</span>
+                </div>
+                <button type="button" class="alert-close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            `;
+            container.appendChild(alert);
+            
+            // Dodaj obsługę zamknięcia
+            alert.querySelector('.alert-close').addEventListener('click', function() {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateX(100%)';
+                setTimeout(() => alert.remove(), 300);
+            });
+            
+            // Automatyczne usuwanie
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translateX(100%)';
+                    setTimeout(() => alert.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        function getIconForType(type) {
+            const icons = {
+                'success': '✅',
+                'error': '❌',
+                'warning': '⚠️',
+                'info': 'ℹ️',
+                'debug': '🔧'
+            };
+            return icons[type] || icons.info;
+        }
+
+        function createMessagesContainer() {
+            const container = document.createElement('div');
+            container.className = 'messages-container';
+            document.querySelector('main').insertBefore(container, document.querySelector('main').firstChild);
+            return container;
+        }
+    </script>
 </body>
 </html>

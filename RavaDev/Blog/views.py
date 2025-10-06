@@ -21,4 +21,5 @@ def post(request, post_id):
         rating = int(request.POST.get('rating'))
         comment = request.POST.get('comment')
         Review.objects.create(post=post, reviewer_name=reviewer_name, rating=rating, comment=comment)
-    return render(request, 'Blog/post.html', {'post': post})
+    reviews = Review.objects.filter(post=post).order_by('-review_date')
+    return render(request, 'Blog/post.html', {'post': post, 'reviews':reviews})
