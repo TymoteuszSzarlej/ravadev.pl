@@ -110,7 +110,7 @@ class Service(models.Model):
     image3 = models.ImageField(upload_to='Services/', null=True, blank=True)
     
     # Metadane
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, default=None)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
