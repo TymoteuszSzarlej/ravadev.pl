@@ -620,3 +620,32 @@ footer::before {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
+
+
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input, textarea {
+  background: var(--bg-darker);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  color: var(--text-light);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+/* .logo  {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 10%;
+} */
