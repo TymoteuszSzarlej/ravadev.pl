@@ -109,9 +109,7 @@ class Service(models.Model):
     image2 = models.ImageField(upload_to='Services/', null=True, blank=True)
     image3 = models.ImageField(upload_to='Services/', null=True, blank=True)
     
-    # Metadane
-    created_at = models.DateTimeField(auto_now_add=True, default=None)
-    updated_at = models.DateTimeField(auto_now=True)
+
     
     def __str__(self):
         return f"{self.id}. {self.title}"
