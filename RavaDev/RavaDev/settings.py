@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-szx!!r7dz6g*0(#!(osjy1e9938@j#k-_q5*%y)hlvc^kxh7ix
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.ravadev.pl', 'ravadev.pl']
+ALLOWED_HOSTS = ['www.ravadev.pl', 'ravadev.pl', 'localhost', '127.0.0.1']
 
 
 # Application definition
