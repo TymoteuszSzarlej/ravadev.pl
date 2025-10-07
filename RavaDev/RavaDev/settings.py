@@ -151,3 +151,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Ustawienia mediów
 MEDIA_URL = '/_media/'  # URL pod którym będą dostępne media
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')  # Ścieżka do katalogu z mediami
+
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.ravadev.pl",
+    "https://ravadev.pl",
+    "http://www.ravadev.pl",
+    "http://ravadev.pl",
+]
