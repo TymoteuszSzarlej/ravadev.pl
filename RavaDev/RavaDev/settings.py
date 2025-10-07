@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-szx!!r7dz6g*0(#!(osjy1e9938@j#k-_q5*%y)hlvc^kxh7ix
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.ravadev.pl', 'ravadev.pl', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['www.ravadev.pl', 'ravadev.pl', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -151,12 +151,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Ustawienia mediów
 MEDIA_URL = '/_media/'  # URL pod którym będą dostępne media
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')  # Ścieżka do katalogu z mediami
-
-
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://www.ravadev.pl",
-    "https://ravadev.pl",
-    "http://www.ravadev.pl",
-    "http://ravadev.pl",
-]
