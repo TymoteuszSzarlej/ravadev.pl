@@ -1415,7 +1415,34 @@ section .main-content {
 
 
 
+quote {
+  position: relative;
+  padding: 1rem 2rem;
+  margin: 1em 0;
+  font-style: italic;
+  background: #f9f9f9;
+  border-left: 3px solid #ccc;
+}
 
+quote::before,
+quote::after {
+  position: absolute;
+  font-size: 3em;
+  color: #ccc;
+  line-height: 1;
+}
+
+quote::before {
+  content: "“";
+  top: 0.2rem;
+  left: 0.5rem;
+}
+
+quote::after {
+  content: "”";
+  bottom: -0.3rem;
+  right: 0.5rem;
+}
 
 
 
