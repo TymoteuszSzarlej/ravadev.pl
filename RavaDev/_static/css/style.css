@@ -1422,27 +1422,26 @@ quote {
   margin: 1em 0;
   font-style: italic;
   border-left: 3px solid #ccc;
-  max-width: 60%;
 }
 
 quote::before,
 quote::after {
   position: absolute;
   font-size: 3em;
-  color: (--primary);
+  color: #ccc;
   line-height: 1;
 }
 
 quote::before {
   content: "“";
-  bottom: 2rem;
-  left: 3rem;
+  top: 0.2rem;
+  left: 0.5rem;
 }
 
 quote::after {
   content: "”";
-  bottom: 2rem;
-  right: 5rem;
+  bottom: -0.3rem;
+  right: 0.5rem;
 }
 
 
