@@ -1416,6 +1416,7 @@ section .main-content {
 
 
 quote {
+  display: block;
   position: relative;
   padding: 1rem 2rem;
   margin: 1em 0;
