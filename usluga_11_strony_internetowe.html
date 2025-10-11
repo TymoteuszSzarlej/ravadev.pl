@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strony internetowe - Usługi IT</title>
+    <style>
+
+:root {
+  --bg-dark: #0a0a0a;
+  --bg-darker: #050505;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --text-light: #ffffff;
+  --text-muted: #b0b0b0;
+  --primary: #00ffd5;
+  --primary-glow: 0 0 20px rgba(0, 255, 213, 0.3);
+  --secondary: #ff00ff;
+  --secondary-glow: 0 0 20px rgba(255, 0, 255, 0.3);
+  --accent-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+  --card-border: rgba(0, 255, 213, 0.1);
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --radius: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 20%;
+}
+
+.logo {
+  width: 12%;
+  height:12%;
+  margin: 0 auto 1rem;
+  filter: drop-shadow(var(--primary-glow));
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.service-title {
+  font-size: 3rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0rem;
+  text-shadow: var(--primary-glow);
+}
+
+.service-description {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.process-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1.1rem;
+  backdrop-filter: blur(10px);
+  scale: 0.6;
+  opacity: 0.4;
+  margin-top: 0;
+}
+
+.tab-btn:hover {
+  border-color: var(--primary);
+  box-shadow: var(--primary-glow);
+  transform: translateY(-2px);
+  scale: 1;
+}
+
+.tab-btn.active {
+  background: var(--accent-gradient);
+  border-color: transparent;
+  box-shadow: var(--primary-glow);
+  scale: 1.6;
+  opacity: 1;
+}
+
+.process-content {
+  display: none;
+}
+
+.process-content.active {
+  display: block;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sections-container {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  transition: var(--transition);
+}
+
+.section:hover {
+  border-color: var(--primary);
+  box-shadow: var(--primary-glow);
+  transform: translateY(-2px);
+}
+
+.section-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin: 0;
+}
+
+.toggle-icon {
+  font-size: 1.2rem;
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.section-header.active .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.dzialy-container {
+  display: grid;
+  gap: 0.8rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.dzialy-container.active {
+  max-height: 2000px;
+}
+
+.dzial {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--radius) - 4px);
+  padding: 1rem;
+  transition: var(--transition);
+}
+
+.dzial:hover {
+  border-color: var(--secondary);
+  box-shadow: var(--secondary-glow);
+  transform: translateX(5px);
+}
+
+.dzial::before {
+  content: "▶";
+  color: var(--secondary);
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.navigation-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 300px;
+  background: var(--bg-darker);
+  border-right: 1px solid var(--card-border);
+  padding: 2rem;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.navigation-sidebar.active {
+  transform: translateX(0);
+}
+
+.nav-toggle {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  background: var(--accent-gradient);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: var(--primary-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: 1.2rem;
+}
+
+.nav-logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 2rem;
+}
+
+.nav-title {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.nav-section-header {
+  padding: 1rem;
+  background: var(--glass-bg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.nav-section-header:hover {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+.nav-dzialy {
+  max-height: 0;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.nav-dzialy.active {
+  max-height: 500px;
+}
+
+.nav-dzial {
+  padding: 0.8rem 1rem 0.8rem 2rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-dzial:hover {
+  background: var(--secondary);
+  color: var(--bg-dark);
+}
+
+.nav-dzial:last-child {
+  border-bottom: none;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  display: none;
+}
+
+.overlay.active {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .service-title {
+    font-size: 2rem;
+  }
+  
+  .process-tabs {
+    flex-direction: column;
+  }
+  
+  .navigation-sidebar {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+    
+    <button class="nav-toggle">☰</button>
+    <div class="navigation-sidebar">
+        <div class="nav-logo"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logoRavaDev.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="0.7500982"
+     inkscape:cx="350.62076"
+     inkscape:cy="723.23864"
+     inkscape:window-width="1470"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2138" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3141">
+      <stop
+         style="stop-color:#2ed4c7;stop-opacity:1;"
+         offset="0"
+         id="stop3137" />
+      <stop
+         style="stop-color:#ff0099;stop-opacity:1;"
+         offset="1"
+         id="stop3139" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3141"
+       id="linearGradient3143"
+       x1="67.342381"
+       y1="174.83913"
+       x2="108.04228"
+       y2="174.83913"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3135"
+       style="stroke:url(#linearGradient3143)"
+       inkscape:export-filename="g3135.png"
+       inkscape:export-xdpi="603.58105"
+       inkscape:export-ydpi="603.58105">
+      <path
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient3143);stroke-width:3;stroke-dasharray:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 95.009171,153.61476 h -26.16679 v 42.30434 h 16.06438 l 16.270979,-26.2287 c 0,0 5.17864,-11.23456 -6.168569,-16.07564 z"
+         id="path2246" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient3143);stroke-width:3;stroke-dasharray:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 68.878346,180.67026 11.135339,-11.13534 26.528595,26.52859"
+         id="path2248" />
+    </g>
+  </g>
+</svg></div>
+        <h2 class="nav-title">Strony internetowe</h2>
+        <div class="nav-sections">
+    <div class="nav-section"><div class="nav-section-header">Projektowanie</div><div class="nav-dzialy"><div class="nav-dzial" data-target="proj-0-analiza-potrzeb-bizn">Analiza potrzeb biznesowych</div><div class="nav-dzial" data-target="proj-0-badanie-grupy-docelo">Badanie grupy docelowej</div><div class="nav-dzial" data-target="proj-0-analiza-konkurencji">Analiza konkurencji</div><div class="nav-dzial" data-target="proj-0-definicja-celów-i-kp">Definicja celów i KPI</div><div class="nav-dzial" data-target="proj-0-plan-projektu-i-harm">Plan projektu i harmonogram</div><div class="nav-dzial" data-target="proj-1-struktura-strony-i-n">Struktura strony i nawigacja</div><div class="nav-dzial" data-target="proj-1-mapa-witryny">Mapa witryny</div><div class="nav-dzial" data-target="proj-1-user-flow-i-ścieżki-">User flow i ścieżki użytkownika</div><div class="nav-dzial" data-target="proj-1-projekt-układu-treśc">Projekt układu treści</div><div class="nav-dzial" data-target="proj-1-strategia-konwersji">Strategia konwersji</div><div class="nav-dzial" data-target="proj-2-projekt-wireframe">Projekt wireframe</div><div class="nav-dzial" data-target="proj-2-design-system-i-styl">Design system i style guide</div><div class="nav-dzial" data-target="proj-2-projekt-responsywny">Projekt responsywny</div><div class="nav-dzial" data-target="proj-2-prototypowanie-inter">Prototypowanie interaktywne</div><div class="nav-dzial" data-target="proj-2-testy-użyteczności">Testy użyteczności</div><div class="nav-dzial" data-target="proj-3-system-zarządzania-t">System zarządzania treścią</div><div class="nav-dzial" data-target="proj-3-moduł-e-commerce">Moduł e-commerce</div><div class="nav-dzial" data-target="proj-3-integracje-z-systema">Integracje z systemami zewnętrznymi</div><div class="nav-dzial" data-target="proj-3-panel-użytkownika">Panel użytkownika</div><div class="nav-dzial" data-target="proj-3-narzędzia-analityczn">Narzędzia analityczne</div><div class="nav-dzial" data-target="proj-4-architektura-technol">Architektura technologiczna</div><div class="nav-dzial" data-target="proj-4-plan-hosting-i-infra">Plan hosting i infrastruktura</div><div class="nav-dzial" data-target="proj-4-strategia-bezpieczeń">Strategia bezpieczeństwa</div><div class="nav-dzial" data-target="proj-4-plan-backup-i-recove">Plan backup i recovery</div><div class="nav-dzial" data-target="proj-4-optymalizacja-wydajn">Optymalizacja wydajności</div></div></div><div class="nav-section"><div class="nav-section-header">Wdrażanie</div><div class="nav-dzialy"><div class="nav-dzial" data-target="wdraz-0-konfiguracja-środowi">Konfiguracja środowisk dev/stage/prod</div><div class="nav-dzial" data-target="wdraz-0-setup-systemu-kontro">Setup systemu kontroli wersji</div><div class="nav-dzial" data-target="wdraz-0-konfiguracja-ci/cd">Konfiguracja CI/CD</div><div class="nav-dzial" data-target="wdraz-0-przygotowanie-baz-da">Przygotowanie baz danych</div><div class="nav-dzial" data-target="wdraz-0-ustawienie-monitorin">Ustawienie monitoringu</div><div class="nav-dzial" data-target="wdraz-1-implementacja-design">Implementacja designu</div><div class="nav-dzial" data-target="wdraz-1-programowanie-funkcj">Programowanie funkcjonalności</div><div class="nav-dzial" data-target="wdraz-1-integracja-z-api">Integracja z API</div><div class="nav-dzial" data-target="wdraz-1-optymalizacja-wydajn">Optymalizacja wydajności</div><div class="nav-dzial" data-target="wdraz-1-testy-jednostkowe">Testy jednostkowe</div><div class="nav-dzial" data-target="wdraz-2-testy-integracyjne">Testy integracyjne</div><div class="nav-dzial" data-target="wdraz-2-testy-bezpieczeństwa">Testy bezpieczeństwa</div><div class="nav-dzial" data-target="wdraz-2-testy-wydajnościowe">Testy wydajnościowe</div><div class="nav-dzial" data-target="wdraz-2-testy-użyteczności">Testy użyteczności</div><div class="nav-dzial" data-target="wdraz-2-testy-akceptacyjne">Testy akceptacyjne</div><div class="nav-dzial" data-target="wdraz-3-migracja-danych">Migracja danych</div><div class="nav-dzial" data-target="wdraz-3-finalne-wdrożenie">Finalne wdrożenie</div><div class="nav-dzial" data-target="wdraz-3-konfiguracja-cdn">Konfiguracja CDN</div><div class="nav-dzial" data-target="wdraz-3-ustawienie-analytics">Ustawienie analytics</div><div class="nav-dzial" data-target="wdraz-3-smoke-testy-produkcy">Smoke testy produkcyjne</div><div class="nav-dzial" data-target="wdraz-4-szkolenie-administra">Szkolenie administratorów</div><div class="nav-dzial" data-target="wdraz-4-monitorowanie-wydajn">Monitorowanie wydajności</div><div class="nav-dzial" data-target="wdraz-4-wsparcie-techniczne">Wsparcie techniczne</div><div class="nav-dzial" data-target="wdraz-4-optymalizacja-seo">Optymalizacja SEO</div><div class="nav-dzial" data-target="wdraz-4-przegląd-post-wdroże">Przegląd post-wdrożeniowy</div></div></div></div></div><div class="overlay"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="logo"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logoRavaDev.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="0.7500982"
+     inkscape:cx="350.62076"
+     inkscape:cy="723.23864"
+     inkscape:window-width="1470"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2138" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3141">
+      <stop
+         style="stop-color:#2ed4c7;stop-opacity:1;"
+         offset="0"
+         id="stop3137" />
+      <stop
+         style="stop-color:#ff0099;stop-opacity:1;"
+         offset="1"
+         id="stop3139" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3141"
+       id="linearGradient3143"
+       x1="67.342381"
+       y1="174.83913"
+       x2="108.04228"
+       y2="174.83913"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3135"
+       style="stroke:url(#linearGradient3143)"
+       inkscape:export-filename="g3135.png"
+       inkscape:export-xdpi="603.58105"
+       inkscape:export-ydpi="603.58105">
+      <path
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient3143);stroke-width:3;stroke-dasharray:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 95.009171,153.61476 h -26.16679 v 42.30434 h 16.06438 l 16.270979,-26.2287 c 0,0 5.17864,-11.23456 -6.168569,-16.07564 z"
+         id="path2246" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient3143);stroke-width:3;stroke-dasharray:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 68.878346,180.67026 11.135339,-11.13534 26.528595,26.52859"
+         id="path2248" />
+    </g>
+  </g>
+</svg></div>
+            <h1 class="service-title">Strony internetowe</h1>
+            <!--<p class="service-description">Kompleksowa realizacja usługi strony internetowe z podziałem na fazy projektowania i wdrażania</p>-->
+        </header>
+        
+        <div class="process-tabs">
+            <button class="tab-btn active" data-target="projektowanie-content">Projektowanie</button>
+            <button class="tab-btn" data-target="wdrazanie-content">Wdrażanie</button>
+        </div>
+        
+        <div id="projektowanie-content" class="process-content active">
+            <div class="sections-container">
+    
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Strategia i planowanie</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="proj-0-analiza-potrzeb-bizn">Analiza potrzeb biznesowych</div><div class="dzial" id="proj-0-badanie-grupy-docelo">Badanie grupy docelowej</div><div class="dzial" id="proj-0-analiza-konkurencji">Analiza konkurencji</div><div class="dzial" id="proj-0-definicja-celów-i-kp">Definicja celów i KPI</div><div class="dzial" id="proj-0-plan-projektu-i-harm">Plan projektu i harmonogram</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Architektura informacji</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="proj-1-struktura-strony-i-n">Struktura strony i nawigacja</div><div class="dzial" id="proj-1-mapa-witryny">Mapa witryny</div><div class="dzial" id="proj-1-user-flow-i-ścieżki-">User flow i ścieżki użytkownika</div><div class="dzial" id="proj-1-projekt-układu-treśc">Projekt układu treści</div><div class="dzial" id="proj-1-strategia-konwersji">Strategia konwersji</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Projekt UX/UI</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="proj-2-projekt-wireframe">Projekt wireframe</div><div class="dzial" id="proj-2-design-system-i-styl">Design system i style guide</div><div class="dzial" id="proj-2-projekt-responsywny">Projekt responsywny</div><div class="dzial" id="proj-2-prototypowanie-inter">Prototypowanie interaktywne</div><div class="dzial" id="proj-2-testy-użyteczności">Testy użyteczności</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Funkcjonalności zaawansowane</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="proj-3-system-zarządzania-t">System zarządzania treścią</div><div class="dzial" id="proj-3-moduł-e-commerce">Moduł e-commerce</div><div class="dzial" id="proj-3-integracje-z-systema">Integracje z systemami zewnętrznymi</div><div class="dzial" id="proj-3-panel-użytkownika">Panel użytkownika</div><div class="dzial" id="proj-3-narzędzia-analityczn">Narzędzia analityczne</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Plan techniczny</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="proj-4-architektura-technol">Architektura technologiczna</div><div class="dzial" id="proj-4-plan-hosting-i-infra">Plan hosting i infrastruktura</div><div class="dzial" id="proj-4-strategia-bezpieczeń">Strategia bezpieczeństwa</div><div class="dzial" id="proj-4-plan-backup-i-recove">Plan backup i recovery</div><div class="dzial" id="proj-4-optymalizacja-wydajn">Optymalizacja wydajności</div></div></section>
+            </div>
+        </div>
+        
+        <div id="wdrazanie-content" class="process-content">
+            <div class="sections-container">
+    
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Przygotowanie środowiska</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="wdraz-0-konfiguracja-środowi">Konfiguracja środowisk dev/stage/prod</div><div class="dzial" id="wdraz-0-setup-systemu-kontro">Setup systemu kontroli wersji</div><div class="dzial" id="wdraz-0-konfiguracja-ci/cd">Konfiguracja CI/CD</div><div class="dzial" id="wdraz-0-przygotowanie-baz-da">Przygotowanie baz danych</div><div class="dzial" id="wdraz-0-ustawienie-monitorin">Ustawienie monitoringu</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Rozwój frontend i backend</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="wdraz-1-implementacja-design">Implementacja designu</div><div class="dzial" id="wdraz-1-programowanie-funkcj">Programowanie funkcjonalności</div><div class="dzial" id="wdraz-1-integracja-z-api">Integracja z API</div><div class="dzial" id="wdraz-1-optymalizacja-wydajn">Optymalizacja wydajności</div><div class="dzial" id="wdraz-1-testy-jednostkowe">Testy jednostkowe</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Testy kompleksowe</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="wdraz-2-testy-integracyjne">Testy integracyjne</div><div class="dzial" id="wdraz-2-testy-bezpieczeństwa">Testy bezpieczeństwa</div><div class="dzial" id="wdraz-2-testy-wydajnościowe">Testy wydajnościowe</div><div class="dzial" id="wdraz-2-testy-użyteczności">Testy użyteczności</div><div class="dzial" id="wdraz-2-testy-akceptacyjne">Testy akceptacyjne</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Wdrożenie na produkcję</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="wdraz-3-migracja-danych">Migracja danych</div><div class="dzial" id="wdraz-3-finalne-wdrożenie">Finalne wdrożenie</div><div class="dzial" id="wdraz-3-konfiguracja-cdn">Konfiguracja CDN</div><div class="dzial" id="wdraz-3-ustawienie-analytics">Ustawienie analytics</div><div class="dzial" id="wdraz-3-smoke-testy-produkcy">Smoke testy produkcyjne</div></div></section>
+        <section class="section">
+            <div class="section-header">
+                <h3 class="section-title">Uruchomienie i wsparcie</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="dzialy-container">
+        <div class="dzial" id="wdraz-4-szkolenie-administra">Szkolenie administratorów</div><div class="dzial" id="wdraz-4-monitorowanie-wydajn">Monitorowanie wydajności</div><div class="dzial" id="wdraz-4-wsparcie-techniczne">Wsparcie techniczne</div><div class="dzial" id="wdraz-4-optymalizacja-seo">Optymalizacja SEO</div><div class="dzial" id="wdraz-4-przegląd-post-wdroże">Przegląd post-wdrożeniowy</div></div></section>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab functionality
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const processContents = document.querySelectorAll('.process-content');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.getAttribute('data-target');
+            
+            // Update active tab
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Show target content
+            processContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === target) {
+                    content.classList.add('active');
+                }
+            });
+        });
+    });
+    
+    // Section toggle functionality
+    const sectionHeaders = document.querySelectorAll('.section-header');
+    
+    sectionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const dzialyContainer = header.nextElementSibling;
+            header.classList.toggle('active');
+            dzialyContainer.classList.toggle('active');
+        });
+    });
+    
+    // Navigation sidebar functionality
+    const navToggle = document.querySelector('.nav-toggle');
+    const navSidebar = document.querySelector('.navigation-sidebar');
+    const overlay = document.querySelector('.overlay');
+    const navSectionHeaders = document.querySelectorAll('.nav-section-header');
+    
+    navToggle.addEventListener('click', () => {
+        navSidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    });
+    
+    overlay.addEventListener('click', () => {
+        navSidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+    
+    // Navigation section toggle
+    navSectionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const navDzialy = header.nextElementSibling;
+            header.classList.toggle('active');
+            navDzialy.classList.toggle('active');
+        });
+    });
+    
+    // Smooth scroll to section
+    const navDzialElements = document.querySelectorAll('.nav-dzial');
+    
+    navDzialElements.forEach(dzial => {
+        dzial.addEventListener('click', () => {
+            const targetId = dzial.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Close sidebar on mobile
+                if (window.innerWidth <= 768) {
+                    navSidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+            }
+        });
+    });
+    
+    // Activate first tab by default
+    if (tabBtns.length > 0) {
+        tabBtns[0].click();
+    }
+});
+</script>
+</body>
+</html>

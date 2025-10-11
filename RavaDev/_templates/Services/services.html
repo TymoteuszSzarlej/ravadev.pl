@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block appTitle %}Usługi{% endblock %}
+{% block moduleTitle %}Lista usług{% endblock %}
+
+{% block appHeader %}
+Usługi
+{% endblock %}
+
+{% block moduleHeader %}
+Poznaj listę naszych usług
+{% endblock %}
+
+{% block content %}
+
+{% for field in fields %}
+<div class="container glass widget-container" style="margin-bottom: 2rem;">
+    <h2>{{ field.name }}</h2>
+    <p class="field-description">{{ field.description }}</p>
+    
+    {% for service in services %}{% if service.field == field %}
+    <!-- Karta usługi -->
+    <a href="{% url 'Services:service_detail' service.id %}">
+        <div class="container glass widget-container service-card">
+            <div class="service-header">
+
+                <h3 class="service-title">{{ service.title }}</h3>
+            </div>
+
+
+        </div>
+    </a>
+    {% endif %}{% endfor %}
+</div>
+{% endfor %}
+
+{% endblock %}
+
+<style>
+.service-card {
+    transition: transform 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.service-header {
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.service-number {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.service-title {
+    margin: 0.5rem 0;
+}
+
+.service-content {
+    padding: 1.5rem;
+}
+
+.service-gallery {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+}
+
+.service-image {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.service-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.market-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.badge {
+    background: #667eea;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.pricing {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.field-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .service-features,
+    .market-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-gallery {
+        flex-direction: column;
+    }
+    
+    .service-image {
+        max-width: 100%;
+    }
+}
+</style>

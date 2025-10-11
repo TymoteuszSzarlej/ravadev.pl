@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block appTitle %}
+    O nas
+{% endblock %}
+
+{% block moduleTitle %}
+    Informacje na temat firmy RavaDev
+{% endblock %}
+
+{% block appHeader %}
+    O nas
+{% endblock %}
+
+{% block moduleHeader %}
+    Informacje na temat firmy RavaDev
+{% endblock %}
+
+{% block content %}
+    <!-- Sekcja informacji o firmie -->
+    {% for item in info %}
+        <div class="info-section">
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.content|safe }}</p>
+        </div>
+    {% endfor %}
+
+    <!-- Sekcja zespołu -->
+    <div class="team-section">
+        <div class="team-members">
+            {% for member in team %}
+                <!-- Karta członka zespołu -->
+                <a href="{% url 'About:team_member' member.id %}">
+                    <div class="container glass widget-container">
+                        
+                        <!-- Górna część: dane elementu -->
+                        <h4>{{ member.name }}</h4>
+
+                        <!-- Dolna część: podział zawartości -->
+                        <div class="content-split" style="display: flex; justify-content: space-between; width: 80%;">
+                            
+                            <!-- Lewa kolumna: zdjęcie -->
+                            <div class="image-container" style="width: 100%;">
+                                <img src="{{ member.photo.url }}" 
+                                     alt="Zdjęcie {{ member.name }}" 
+                                     style="max-width: 100%; height: auto; border-radius: 4px;" class="mini">
+                            </div>
+
+                            <!-- Prawa kolumna: informacje -->
+                            <div class="container" style="width: 100%;">
+                                <h6>{{ member.role }}</h6>
+                                <br>
+                                <p>Wykształcenie: <strong>{{ member.education }}</strong></p>
+                                <p>Stopień: <strong>{{ member.degree }}</strong></p>
+                                <p>{{ member.bio|truncatechars:256 }}</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

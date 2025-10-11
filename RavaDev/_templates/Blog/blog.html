@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block appTitle %}
+Blog
+{% endblock %}
+
+{% block moduleTitle %}
+Strona główna bloga
+{% endblock %}
+
+{% block appHeader %}
+Blog
+{% endblock %}
+
+{% block moduleHeader %}
+Strona główna bloga
+{% endblock %}
+
+{% block content %}
+    {% for category in categories %}
+    <!-- Karta kategorii -->
+    <a href="{% url 'Blog:category' category.id %}">
+        <div class="container glass widget-container" style="margin-bottom: 2rem;">
+            <!-- Górna część: dane elementu -->
+            <h4>{{ category.name }}</h4>
+            <!-- Dolna część: podział zawartości -->
+            
+                <!-- Lewa kolumna: kategoria -->
+                <div class="container" style="width: 100%;">
+                    <h6>Kategoria bloga</h6>
+                    <br>
+                    <p>Liczba postów: <strong>{{ category.post_set.count }}</strong></p>
+                    <p>Opis: <strong>{{ category.description }}</strong></p>
+                    <p>{{ category.description|truncatechars:256 }}</p>
+                </div>
+               
+
+        </div>
+    </a>
+    {% endfor %}
+{% endblock %}

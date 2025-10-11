@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block appTitle %}Projekty{% endblock %}
+{% block moduleTitle %}Portfolio projektów{% endblock %}
+
+{% block appHeader %}
+Projekty
+{% endblock %}
+
+{% block moduleHeader %}
+Nasze realizacje
+{% endblock %}
+
+{% block content %}
+<div class="projects-container">
+    <div class="projects-grid">
+{% for project in projects %}
+    <!-- Karta projektu -->
+    <a href="{% url 'Projects:project_detail' project.id %}">
+        <div class="container glass widget-container">
+            
+            <!-- Górna część: dane elementu -->
+            <h4>{{ project.title }}</h4>
+
+            <!-- Dolna część: podział zawartości -->
+            <div class="content-split" style="display: flex; justify-content: space-between; width: 80%;">
+                
+                <!-- Lewa kolumna: zdjęcie -->
+                <div class="image-container" style="width: 100%;">
+                    <img src="{{ project.main_image.url }}" 
+                         alt="Zdjęcie {{ project.title }}" 
+                         style="max-width: 100%; height: auto; border-radius: 4px;" class="mini">
+                </div>
+
+                <!-- Prawa kolumna: informacje -->
+                <div class="container" style="width: 100%;">
+                    <h6>{{ project.client }}</h6>
+                    <br>
+                    <p>Kategoria: <strong>{{ project.category }}</strong></p>
+                    <p>Data realizacji: <strong>{{ project.completion_date|date:"d.m.Y" }}</strong></p>
+                    <p>{{ project.description|truncatechars:256 }}</p>
+                    <a href="{% url 'Projects:project_detail' project.id %}">Zobacz projekt</a>
+                </div>
+                
+            </div>
+        </div>
+    </a>
+{% endfor %}
+    </div>
+</div>
+{% endblock %}
