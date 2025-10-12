@@ -112,9 +112,9 @@
     <!-- Header & Navigation -->
     <header class="navbar">
         <div class="container">
-            <span class="wordmark">
+            <div class="wordmark">
                 {% include '_includes/wordmark.html' %}
-            </span>
+            </div>
             
             <div class="hamburger-menu" id="hamburger">
                 <span></span>
@@ -443,6 +443,24 @@
 
     <script>
         // Konfiguracja renderer, scena, kamera
+<script>
+    // === Stałe kolorystyczne ===
+    const COLORS = {
+        background: 0x30D5C8,
+        ambientLight: 0xffffff,
+        directionalLight: 0xfff7e6,
+        cloud: 0x30D5C8,
+        rim: new THREE.Color(0.12, 0.14, 0.15),
+        fog: new THREE.Color(0.02, 0.04, 0.08),
+        palette: {
+        low: new THREE.Color(0.05, 0.12, 0.20),
+        mid: new THREE.Color(0.12, 0.30, 0.34),
+        high: new THREE.Color(0.68, 0.82, 0.88),
+        peak: new THREE.Color(0.95, 0.96, 0.98)
+        }
+    };
+
+    // === Konfiguracja renderer, scena, kamera ===
     const canvas = document.getElementById('bgCanvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.autoClear = true;
@@ -450,19 +468,19 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x222);
+    scene.background = new THREE.Color(COLORS.background);
 
-    // Kamera z lotu ptaka z lekkim kątem
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 48, 78);
     camera.lookAt(0, 0, 0);
 
-    // światło ambient + punktowe symulujące słońce z boku
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambient = new THREE.AmbientLight(COLORS.ambientLight, 0.6);
     scene.add(ambient);
-    const sun = new THREE.DirectionalLight(0xfff7e6, 0.9);
+
+    const sun = new THREE.DirectionalLight(COLORS.directionalLight, 0.9);
     sun.position.set(50, 80, 40);
     scene.add(sun);
+
 
     // Parametry sterowane UI
     const ui = {
