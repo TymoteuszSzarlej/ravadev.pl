@@ -441,76 +441,117 @@
     </script>
 
 
-    <script>
-        // Konfiguracja renderer, scena, kamera
-<script>
-    // === Stałe kolorystyczne ===
-    const COLORS = {
-        background: 0x30D5C8,
-        ambientLight: 0xffffff,
-        directionalLight: 0xfff7e6,
-        cloud: 0x30D5C8,
-        rim: new THREE.Color(0.12, 0.14, 0.15),
-        fog: new THREE.Color(0.02, 0.04, 0.08),
-        palette: {
-        low: new THREE.Color(0.05, 0.12, 0.20),
-        mid: new THREE.Color(0.12, 0.30, 0.34),
-        high: new THREE.Color(0.68, 0.82, 0.88),
-        peak: new THREE.Color(0.95, 0.96, 0.98)
+    <script>// === Stałe kolorystyczne ===
+const COLORS = {
+    background: 0x222222,
+    ambientLight: 0xffffff,
+    directionalLight: 0xfff7e6,
+    cloud: 0x222222,
+    cloudOpacity: 0.12,
+    rim: new THREE.Color(0.12, 0.14, 0.15),
+    fog: new THREE.Color(0.02, 0.04, 0.08),
+    palette: {
+        //low: new THREE.Color(0.188, 0.835, 0.784),
+        //mid: new THREE.Color(0.373, 0.718, 0.776),
+        //high: new THREE.Color(0.824, 0.353, 0.682),
+        //peak: new THREE.Color(1.00, 0.0, 1)
+        low: new THREE.Color(0.02, 0.0, 0.08),
+        mid: new THREE.Color(0.03, 0.0, 0.05),
+        high: new THREE.Color(0.05, 0.0, 0.03),
+        peak: new THREE.Color(0,08, 0.0, 0,02)
+    },
+    lighting: {
+        diffuse: 0.8,
+        ambient: 0.35,
+        rimPower: 3.0,
+        haze: 0.06
+    },
+    terrain: {
+        heightRange: 20.0,
+        colorStops: {
+            low: 0.25,
+            mid: 0.6,
+            high: 1.0
         }
-    };
+    },
+    fogRange: {
+        near: 120.0,
+        far: 220.0
+    }
+};
 
-    // === Konfiguracja renderer, scena, kamera ===
-    const canvas = document.getElementById('bgCanvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.autoClear = true;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+// === Konfiguracja renderer, scena, kamera ===
+const canvas = document.getElementById('bgCanvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.autoClear = true;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(COLORS.background);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(COLORS.background);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 48, 78);
-    camera.lookAt(0, 0, 0);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 48, 78);
+camera.lookAt(0, 0, 0);
 
-    const ambient = new THREE.AmbientLight(COLORS.ambientLight, 0.6);
-    scene.add(ambient);
+const ambient = new THREE.AmbientLight(COLORS.ambientLight, 0.6);
+scene.add(ambient);
 
-    const sun = new THREE.DirectionalLight(COLORS.directionalLight, 0.9);
-    sun.position.set(50, 80, 40);
-    scene.add(sun);
+const sun = new THREE.DirectionalLight(COLORS.directionalLight, 0.9);
+sun.position.set(50, 80, 40);
+scene.add(sun);
 
+// Parametry sterowane UI
+const ui = {
+    scale: parseFloat(document.getElementById('uScale').value),
+    elev: parseFloat(document.getElementById('uElev').value),
+    speed: parseFloat(document.getElementById('uSpeed').value)
+};
+document.getElementById('uScale').addEventListener('input', e => ui.scale = parseFloat(e.target.value));
+document.getElementById('uElev').addEventListener('input', e => ui.elev = parseFloat(e.target.value));
+document.getElementById('uSpeed').addEventListener('input', e => ui.speed = parseFloat(e.target.value));
 
-    // Parametry sterowane UI
-    const ui = {
-      scale: parseFloat(document.getElementById('uScale').value),
-      elev: parseFloat(document.getElementById('uElev').value),
-      speed: parseFloat(document.getElementById('uSpeed').value)
-    };
-    document.getElementById('uScale').addEventListener('input', e => ui.scale = parseFloat(e.target.value));
-    document.getElementById('uElev').addEventListener('input', e => ui.elev = parseFloat(e.target.value));
-    document.getElementById('uSpeed').addEventListener('input', e => ui.speed = parseFloat(e.target.value));
+// Plane geometry o dużym wymiarze, mniej wierzchołków dla wydajności
+const segmentsX = 256;
+const segmentsY = 256;
+const planeSize = 220;
+const geometry = new THREE.PlaneGeometry(planeSize, planeSize, segmentsX, segmentsY);
+geometry.rotateX(-Math.PI / 2);
 
-    // Plane geometry o dużym wymiarze, mniej wierzchołków dla wydajności
-    const segmentsX = 256;
-    const segmentsY = 256;
-    const planeSize = 220;
-    const geometry = new THREE.PlaneGeometry(planeSize, planeSize, segmentsX, segmentsY);
-    geometry.rotateX(-Math.PI / 2);
-
-    // Shader material z 2D noise w vertex oraz kolorowaniem w fragment
-    const material = new THREE.ShaderMaterial({
-      uniforms: {
+// Shader material z 2D noise w vertex oraz kolorowaniem w fragment
+const material = new THREE.ShaderMaterial({
+    uniforms: {
         uTime: { value: 0.0 },
         uScale: { value: ui.scale },
         uElevation: { value: ui.elev },
         uSpeed: { value: ui.speed },
         uLightDir: { value: new THREE.Vector3(0.6, 0.8, 0.4) },
         uCameraPos: { value: camera.position },
-        uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
-      },
-      vertexShader: `
+        uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        uPaletteLow: { value: COLORS.palette.low },
+        uPaletteMid: { value: COLORS.palette.mid },
+        uPaletteHigh: { value: COLORS.palette.high },
+        uPalettePeak: { value: COLORS.palette.peak },
+        uRimColor: { value: COLORS.rim },
+        uFogColor: { value: COLORS.fog },
+        uHeightRange: { value: COLORS.terrain.heightRange },
+        uColorStops: { value: new THREE.Vector3(
+            COLORS.terrain.colorStops.low,
+            COLORS.terrain.colorStops.mid,
+            COLORS.terrain.colorStops.high
+        )},
+        uLightingParams: { value: new THREE.Vector3(
+            COLORS.lighting.diffuse,
+            COLORS.lighting.ambient,
+            COLORS.lighting.rimPower
+        )},
+        uHazeAmount: { value: COLORS.lighting.haze },
+        uFogRange: { value: new THREE.Vector2(
+            COLORS.fogRange.near,
+            COLORS.fogRange.far
+        )}
+    },
+    vertexShader: `
         varying vec3 vPos;
         varying vec3 vNormal;
         varying vec2 vUv;
@@ -524,199 +565,209 @@
         vec2 mod289(vec2 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
         vec3 permute(vec3 x){ return mod289(((x*34.0)+1.0)*x); }
         float snoise(vec2 v){
-          const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-                              -0.577350269189626, 0.024390243902439);
-          vec2 i = floor(v + dot(v, C.yy) );
-          vec2 x0 = v - i + dot(i, C.xx);
-          vec2 i1;
-          i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-          vec4 x12 = x0.xyxy + C.xxzz;
-          x12.xy -= i1;
-          i = mod289(i);
-          vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
-                          + i.x + vec3(0.0, i1.x, 1.0 ));
-          vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-          m = m*m; m = m*m;
-          vec3 x = 2.0 * fract(p * C.www) - 1.0;
-          vec3 h = abs(x) - 0.5;
-          vec3 ox = floor(x + 0.5);
-          vec3 a0 = x - ox;
-          m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-          vec3 g;
-          g.x  = a0.x * x0.x + h.x * x0.y;
-          g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-          return 130.0 * dot(m, g);
+        const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                            -0.577350269189626, 0.024390243902439);
+        vec2 i = floor(v + dot(v, C.yy) );
+        vec2 x0 = v - i + dot(i, C.xx);
+        vec2 i1;
+        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+        vec4 x12 = x0.xyxy + C.xxzz;
+        x12.xy -= i1;
+        i = mod289(i);
+        vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+                        + i.x + vec3(0.0, i1.x, 1.0 ));
+        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+        m = m*m; m = m*m;
+        vec3 x = 2.0 * fract(p * C.www) - 1.0;
+        vec3 h = abs(x) - 0.5;
+        vec3 ox = floor(x + 0.5);
+        vec3 a0 = x - ox;
+        m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+        vec3 g;
+        g.x  = a0.x * x0.x + h.x * x0.y;
+        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+        return 130.0 * dot(m, g);
         }
 
         void main(){
-          vUv = uv;
-          vec3 pos = position;
-          // multi-octave noise for terrain heights
-          float s = uScale;
-          float t = uTime * 0.2 * uSpeed;
-          float n = 0.0;
-          float amp = 1.0;
-          float freq = 1.0;
-          // 4 octaves
-          for(int i=0;i<4;i++){
+        vUv = uv;
+        vec3 pos = position;
+        // multi-octave noise for terrain heights
+        float s = uScale;
+        float t = uTime * 0.2 * uSpeed;
+        float n = 0.0;
+        float amp = 1.0;
+        float freq = 1.0;
+        // 4 octaves
+        for(int i=0;i<4;i++){
             n += snoise((pos.xz * 0.02 * freq) + vec2(t, -t)) * amp;
             freq *= 2.0;
             amp *= 0.5;
-          }
-          // ridge shaping to form peaks
-          n = abs(n);
-          float elevation = pow(n, 1.6) * uElevation * 8.0;
-          pos.y += elevation;
-
-          vPos = pos;
-          vNormal = normalMatrix * normal;
-
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
-      `,
-      fragmentShader: `
+        // ridge shaping to form peaks
+        n = abs(n);
+        float elevation = pow(n, 1.6) * uElevation * 8.0;
+        pos.y += elevation;
+
+        vPos = pos;
+        vNormal = normalMatrix * normal;
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+    `,
+    fragmentShader: `
         varying vec3 vPos;
         varying vec3 vNormal;
         varying vec2 vUv;
         uniform vec3 uLightDir;
         uniform vec3 uCameraPos;
+        uniform vec3 uPaletteLow;
+        uniform vec3 uPaletteMid;
+        uniform vec3 uPaletteHigh;
+        uniform vec3 uPalettePeak;
+        uniform vec3 uRimColor;
+        uniform vec3 uFogColor;
+        uniform float uHeightRange;
+        uniform vec3 uColorStops;
+        uniform vec3 uLightingParams;
+        uniform float uHazeAmount;
+        uniform vec2 uFogRange;
 
-        // color palettes
+        // color palettes using uniforms
         vec3 palette(float h){
-          // mountainous palette interpolation by height
-          vec3 low = vec3(0.05, 0.12, 0.20);
-          vec3 mid = vec3(0.12, 0.30, 0.34);
-          vec3 high = vec3(0.68, 0.82, 0.88);
-          vec3 peak = vec3(0.95, 0.96, 0.98);
-          if(h < 0.25) return mix(low, mid, smoothstep(0.0,0.25,h/0.25));
-          if(h < 0.6) return mix(mid, high, smoothstep(0.25,0.6,(h-0.25)/0.35));
-          return mix(high, peak, smoothstep(0.6,1.0,(h-0.6)/0.4));
+        if(h < uColorStops.x) return mix(uPaletteLow, uPaletteMid, smoothstep(0.0, uColorStops.x, h/uColorStops.x));
+        if(h < uColorStops.y) return mix(uPaletteMid, uPaletteHigh, smoothstep(uColorStops.x, uColorStops.y, (h - uColorStops.x)/(uColorStops.y - uColorStops.x)));
+        return mix(uPaletteHigh, uPalettePeak, smoothstep(uColorStops.y, uColorStops.z, (h - uColorStops.y)/(uColorStops.z - uColorStops.y)));
         }
 
         void main(){
-          float height = clamp(vPos.y / 20.0, 0.0, 1.0);
-          vec3 baseColor = palette(height);
+        float height = clamp(vPos.y / uHeightRange, 0.0, 1.0);
+        vec3 baseColor = palette(height);
 
-          // simple diffuse + rim lighting
-          vec3 N = normalize(vNormal);
-          vec3 L = normalize(uLightDir);
-          float diff = clamp(dot(N, L), 0.0, 1.0);
-          float rim = pow(1.0 - max(dot(normalize(uCameraPos - vPos), N), 0.0), 3.0);
-          vec3 color = baseColor * (0.35 + diff * 0.8) + vec3(0.12,0.14,0.15) * rim;
+        // simple diffuse + rim lighting
+        vec3 N = normalize(vNormal);
+        vec3 L = normalize(uLightDir);
+        float diff = clamp(dot(N, L), 0.0, 1.0);
+        float rim = pow(1.0 - max(dot(normalize(uCameraPos - vPos), N), 0.0), uLightingParams.z);
+        vec3 color = baseColor * (uLightingParams.y + diff * uLightingParams.x) + uRimColor * rim;
 
-          // fog by distance to blend to deep blue
-          float fogFactor = smoothstep(120.0, 220.0, length(uCameraPos - vPos));
-          vec3 fogColor = vec3(0.02, 0.04, 0.08);
-          color = mix(color, fogColor, fogFactor);
+        // fog by distance to blend to deep blue
+        float fogFactor = smoothstep(uFogRange.x, uFogRange.y, length(uCameraPos - vPos));
+        color = mix(color, uFogColor, fogFactor);
 
-          // slight atmospheric haze at lower heights
-          float haze = smoothstep(0.0, 0.25, 1.0 - height) * 0.06;
-          color += haze;
+        // slight atmospheric haze at lower heights
+        float haze = smoothstep(0.0, 0.25, 1.0 - height) * uHazeAmount;
+        color += haze;
 
-          gl_FragColor = vec4(color, 1.0);
+        gl_FragColor = vec4(color, 1.0);
         }
-      `,
-      side: THREE.DoubleSide,
-      transparent: false
-    });
+    `,
+    side: THREE.DoubleSide,
+    transparent: false
+});
 
-    const terrain = new THREE.Mesh(geometry, material);
-    terrain.receiveShadow = true;
-    terrain.castShadow = false;
-    scene.add(terrain);
+const terrain = new THREE.Mesh(geometry, material);
+terrain.receiveShadow = true;
+terrain.castShadow = false;
+scene.add(terrain);
 
-    // dyskretna siatka mgły/dalekiej warstwy chmur (płaski plane z przesuwanym gradientem)
-    const cloudGeo = new THREE.PlaneGeometry(900, 900, 1, 1);
-    const cloudMat = new THREE.MeshBasicMaterial({ color: 0x222222, transparent: true, opacity: 0.12, depthWrite: false });
-    const cloudPlane = new THREE.Mesh(cloudGeo, cloudMat);
-    cloudPlane.rotation.x = -Math.PI/2;
-    cloudPlane.position.y = 28;
-    scene.add(cloudPlane);
+// dyskretna siatka mgły/dalekiej warstwy chmur (płaski plane z przesuwanym gradientem)
+const cloudGeo = new THREE.PlaneGeometry(900, 900, 1, 1);
+const cloudMat = new THREE.MeshBasicMaterial({ 
+    color: COLORS.cloud, 
+    transparent: true, 
+    opacity: COLORS.cloudOpacity, 
+    depthWrite: false 
+});
+const cloudPlane = new THREE.Mesh(cloudGeo, cloudMat);
+cloudPlane.rotation.x = -Math.PI/2;
+cloudPlane.position.y = 28;
+scene.add(cloudPlane);
 
-    // kursora i dotyku: lekkie przesunięcie kamery i rotacja terenu
-    const pointer = { x: 0, y: 0, px: 0, py: 0 };
-    function onPointer(e){
-      const cx = e.clientX || (e.touches && e.touches[0].clientX) || window.innerWidth/2;
-      const cy = e.clientY || (e.touches && e.touches[0].clientY) || window.innerHeight/2;
-      pointer.x = (cx / window.innerWidth) * 2 - 1;
-      pointer.y = (cy / window.innerHeight) * 2 - 1;
-    }
-    window.addEventListener('pointermove', onPointer, { passive: true });
-    window.addEventListener('touchmove', onPointer, { passive: true });
+// kursora i dotyku: lekkie przesunięcie kamery i rotacja terenu
+const pointer = { x: 0, y: 0, px: 0, py: 0 };
+function onPointer(e){
+    const cx = e.clientX || (e.touches && e.touches[0].clientX) || window.innerWidth/2;
+    const cy = e.clientY || (e.touches && e.touches[0].clientY) || window.innerHeight/2;
+    pointer.x = (cx / window.innerWidth) * 2 - 1;
+    pointer.y = (cy / window.innerHeight) * 2 - 1;
+}
+window.addEventListener('pointermove', onPointer, { passive: true });
+window.addEventListener('touchmove', onPointer, { passive: true });
 
-    // optymalizacje FPS dla mobile
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const targetFps = isMobile ? 30 : 60;
-    let lastFrame = performance.now();
-    let raf;
+// optymalizacje FPS dla mobile
+const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const targetFps = isMobile ? 30 : 60;
+let lastFrame = performance.now();
+let raf;
 
-    // responsywność
-    function resize(){
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.3 : 2));
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      material.uniforms.uResolution.value.set(w, h);
-    }
-    window.addEventListener('resize', resize, { passive: true });
-    resize();
+// responsywność
+function resize(){
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.3 : 2));
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    material.uniforms.uResolution.value.set(w, h);
+}
+window.addEventListener('resize', resize, { passive: true });
+resize();
 
-    // animacja
-    function animate(now){
-      raf = requestAnimationFrame(animate);
-      const dt = now - lastFrame;
-      if (dt < (1000 / targetFps) * 0.7) return;
-      lastFrame = now;
-
-      // wygładzenie kursora
-      pointer.px += (pointer.x - pointer.px) * 0.08;
-      pointer.py += (pointer.y - pointer.py) * 0.08;
-
-      // kamera lekko przesuwa się nad terenem i pochyla zgodnie z kursorem
-      const camTargetX = pointer.px * 28;
-      const camTargetZ = 60 + pointer.py * -18;
-      camera.position.x += (camTargetX - camera.position.x) * 0.06;
-      camera.position.z += (camTargetZ - camera.position.z) * 0.06;
-      camera.position.y += (48 + pointer.py * -18 - camera.position.y) * 0.06;
-      camera.lookAt(0, 0, 0);
-
-      // rotacja terenu dla subtelnego parallaxu
-      terrain.rotation.y = pointer.px * 0.08;
-
-      // przesuwanie chmur
-      cloudPlane.position.x += 0.02 * ui.speed;
-      cloudPlane.position.z += 0.01 * ui.speed;
-
-      // aktualizacja uniformów
-      material.uniforms.uTime.value = now * 0.001;
-      material.uniforms.uScale.value = ui.scale;
-      material.uniforms.uElevation.value = ui.elev;
-      material.uniforms.uSpeed.value = ui.speed;
-      material.uniforms.uLightDir.value.set(0.6, 0.8, 0.4);
-      material.uniforms.uCameraPos.value.copy(camera.position);
-
-      // lekkie LOD: jeśli kamera daleko, obniż precyzję cieniowania przez zmniejszanie rozmiaru rysunku punktowego (DPR)
-      renderer.render(scene, camera);
-    }
+// animacja
+function animate(now){
     raf = requestAnimationFrame(animate);
+    const dt = now - lastFrame;
+    if (dt < (1000 / targetFps) * 0.7) return;
+    lastFrame = now;
 
-    // tryb oszczędny kiedy karta nieaktywna
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) cancelAnimationFrame(raf);
-      else raf = requestAnimationFrame(animate);
-    });
+    // wygładzenie kursora
+    pointer.px += (pointer.x - pointer.px) * 0.08;
+    pointer.py += (pointer.y - pointer.py) * 0.08;
 
-    // czyszczenie przy zamknięciu (dla SPA)
-    window.addEventListener('unload', () => {
-      cancelAnimationFrame(raf);
-      geometry.dispose();
-      material.dispose();
-      cloudGeo.dispose();
-      cloudMat.dispose();
-      renderer.dispose();
-    });
+    // kamera lekko przesuwa się nad terenem i pochyla zgodnie z kursorem
+    const camTargetX = pointer.px * 28;
+    const camTargetZ = 60 + pointer.py * -18;
+    camera.position.x += (camTargetX - camera.position.x) * 0.06;
+    camera.position.z += (camTargetZ - camera.position.z) * 0.06;
+    camera.position.y += (48 + pointer.py * -18 - camera.position.y) * 0.06;
+    camera.lookAt(0, 0, 0);
+
+    // rotacja terenu dla subtelnego parallaxu
+    terrain.rotation.y = pointer.px * 0.08;
+
+    // przesuwanie chmur
+    cloudPlane.position.x += 0.02 * ui.speed;
+    cloudPlane.position.z += 0.01 * ui.speed;
+
+    // aktualizacja uniformów
+    material.uniforms.uTime.value = now * 0.001;
+    material.uniforms.uScale.value = ui.scale;
+    material.uniforms.uElevation.value = ui.elev;
+    material.uniforms.uSpeed.value = ui.speed;
+    material.uniforms.uLightDir.value.set(0.6, 0.8, 0.4);
+    material.uniforms.uCameraPos.value.copy(camera.position);
+
+    // lekkie LOD: jeśli kamera daleko, obniż precyzję cieniowania przez zmniejszanie rozmiaru rysunku punktowego (DPR)
+    renderer.render(scene, camera);
+}
+raf = requestAnimationFrame(animate);
+
+// tryb oszczędny kiedy karta nieaktywna
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(raf);
+    else raf = requestAnimationFrame(animate);
+});
+
+// czyszczenie przy zamknięciu (dla SPA)
+window.addEventListener('unload', () => {
+    cancelAnimationFrame(raf);
+    geometry.dispose();
+    material.dispose();
+    cloudGeo.dispose();
+    cloudMat.dispose();
+    renderer.dispose();
+});
     </script>
     
     {% block extra_js %}{% endblock %}
