@@ -1366,6 +1366,7 @@ main {
     height: auto; /* ZMIENIONE Z 100vh na auto */
     scroll-snap-type: none; /* WYŁĄCZONE DLA GŁÓWNEGO MAIN */
     min-height: 100vh;
+    opacity: 0;
 }
 
 /* Kontener dla snap scroll sections */
