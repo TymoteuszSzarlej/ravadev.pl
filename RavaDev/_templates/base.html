@@ -136,13 +136,13 @@
 
 
 
-<canvas id="bgCanvas" aria-hidden="true"></canvas>
+<canvas id="bgCanvas" aria-hidden="true" class="background-animation"></canvas>
       <div class="overlay">
-        <div class="title">
+        <div class="title hidden">
           <h1>Góry z lotu ptaka</h1>
           <p class="lead">Interaktywna, proceduralna scena terenu generowana w shaderze; reaguje na ruch kursora i dotyk.</p>
         </div>
-        <div class="panel controls" aria-hidden="false">
+        <div class="panel controls hidden" aria-hidden="false">
           <label class="control hidden">
             Scale
             <input id="uScale" type="range" min="0.6" max="3.2" step="0.01" value="1.25" style="width:120px;margin-left:8px;vertical-align:middle;">
@@ -155,7 +155,7 @@
             Speed
             <input id="uSpeed" type="range" min="0.0" max="1.2" step="0.01" value="0.42" style="width:120px;margin-left:8px;">
           </label>
-          <div class="legend">Przesuń kursor, aby przechylać widok.</div>
+          <div class="legend hidden">Przesuń kursor, aby przechylać widok.</div>
         </div>
       </div>
     </canvas>

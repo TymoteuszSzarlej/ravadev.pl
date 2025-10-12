@@ -1458,4 +1458,16 @@ quote::after {
 }
 
 
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #22d3ee);
+  background-size: 800% 800%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
 /* EOF */
