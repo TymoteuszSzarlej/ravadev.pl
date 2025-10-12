@@ -604,7 +604,7 @@
 
     // dyskretna siatka mgły/dalekiej warstwy chmur (płaski plane z przesuwanym gradientem)
     const cloudGeo = new THREE.PlaneGeometry(900, 900, 1, 1);
-    const cloudMat = new THREE.MeshBasicMaterial({ color: 0x05213a, transparent: true, opacity: 0.12, depthWrite: false });
+    const cloudMat = new THREE.MeshBasicMaterial({ color: 0x222, transparent: true, opacity: 0.12, depthWrite: false });
     const cloudPlane = new THREE.Mesh(cloudGeo, cloudMat);
     cloudPlane.rotation.x = -Math.PI/2;
     cloudPlane.position.y = 28;
