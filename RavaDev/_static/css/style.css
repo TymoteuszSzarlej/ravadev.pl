@@ -1470,4 +1470,33 @@ quote::after {
   animation: gradientAnimation 15s ease infinite;
 }
 
+
+
+
+/* Ustaw canvas jako tło */
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Kluczowe - umieszcza pod treścią */
+    pointer-events: none; /* Zapobiega blokowaniu interakcji */
+}
+
+/* Upewnij się, że treść jest nad canvasem */
+.navbar,
+.main-content,
+.snap-container,
+.messages-container,
+footer, main {
+    position: relative;
+    z-index: 1;
+}
+
+/* Popraw przezroczystość tła dla czytelności */
+.glass {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+}
 /* EOF */
