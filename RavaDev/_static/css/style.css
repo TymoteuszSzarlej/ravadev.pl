@@ -1446,7 +1446,16 @@ quote::after {
 
 
 
+.blocked {
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+  position: relative;
+}
 
+.hidden {
+  display: none !important;
+}
 
 
 /* EOF */
