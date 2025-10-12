@@ -147,7 +147,7 @@
           <h1>Góry z lotu ptaka</h1>
           <p class="lead">Interaktywna, proceduralna scena terenu generowana w shaderze; reaguje na ruch kursora i dotyk.</p>
         </div>
-        <div class="panel controls hidden" aria-hidden="false">
+        <!-- <div class="panel controls hidden" aria-hidden="false">
           <label class="control hidden">
             Scale
             <input id="uScale" type="range" min="0.6" max="3.2" step="0.01" value="1.25" style="width:120px;margin-left:8px;vertical-align:middle;">
@@ -161,7 +161,7 @@
             <input id="uSpeed" type="range" min="0.0" max="1.2" step="0.01" value="0.42" style="width:120px;margin-left:8px;">
           </label>
           <div class="legend hidden">Przesuń kursor, aby przechylać widok.</div>
-        </div>
+        </div> -->
       </div>
     </canvas>
 
@@ -444,7 +444,7 @@
     <script>// === Stałe kolorystyczne ===
 const COLORS = {
     background: 0x222222,
-    ambientLight: 0xffffff,
+    ambientLight: 0x30D5C8,
     directionalLight: 0xfff7e6,
     cloud: 0x222222,
     cloudOpacity: 0.12,
@@ -455,19 +455,19 @@ const COLORS = {
         //mid: new THREE.Color(0.373, 0.718, 0.776),
         //high: new THREE.Color(0.824, 0.353, 0.682),
         //peak: new THREE.Color(1.00, 0.0, 1)
-        low: new THREE.Color(0.02, 0.0, 0.08),
-        mid: new THREE.Color(0.03, 0.0, 0.05),
-        high: new THREE.Color(0.05, 0.0, 0.03),
-        peak: new THREE.Color(0,08, 0.0, 0,02)
+        low: new THREE.Color(0.02, 0.0, 0.13),
+        mid: new THREE.Color(0.03, 0.0, 0.08),
+        high: new THREE.Color(0.5, 0.0, 0.05),
+        peak: new THREE.Color(0,8, 0.0, 0,3)
     },
     lighting: {
         diffuse: 0.8,
-        ambient: 0.35,
+        ambient: 0.8,
         rimPower: 3.0,
-        haze: 0.06
+        haze: 0.01
     },
     terrain: {
-        heightRange: 20.0,
+        heightRange: 30.0,
         colorStops: {
             low: 0.25,
             mid: 0.6,
@@ -475,8 +475,8 @@ const COLORS = {
         }
     },
     fogRange: {
-        near: 120.0,
-        far: 220.0
+        near: 200.0,
+        far: 300.0
     }
 };
 
