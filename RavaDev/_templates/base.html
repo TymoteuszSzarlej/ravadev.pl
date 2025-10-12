@@ -199,7 +199,7 @@
     <!-- Main Content -->
     <main>
     <div class="snap-container">
-
+        {% block snap_container %}
         <!-- Domyślny kontener bez snap scroll -->
         <div class="container">
             <div class="main-content glass">
@@ -215,6 +215,7 @@
                 </div>
             </div>
         </div>
+        {% endblock %}
     </div>
     </main>
 
@@ -437,9 +438,9 @@
 
 /* Konfigurowalne kolory na początku skryptu */
 const COLORS = {
-  bg: '#222222',            // tło
+  bg: '#ff00ff',            // tło
   primary: '#30d5c8',       // turkus (primary)
-  secondary: '#ff00ff'      // magenta (secondary)
+  secondary: '#222222'      // magenta (secondary)
 };
 
 /* ====== Ustawienia renderer, scena, kamera ====== */
@@ -615,7 +616,7 @@ scene.add(terrain);
 
 /* Dyskretna warstwa chmur/mgły */
 const cloudGeo = new THREE.PlaneGeometry(900, 900, 1, 1);
-const cloudMat = new THREE.MeshBasicMaterial({ color: new THREE.Color().setStyle(COLORS.secondary).multiplyScalar(0.12), transparent: true, depthWrite: false });
+const cloudMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(222222).setStyle(COLORS.secondary).multiplyScalar(0.12), transparent: true, depthWrite: false });
 const cloudPlane = new THREE.Mesh(cloudGeo, cloudMat);
 cloudPlane.rotation.x = -Math.PI/2;
 cloudPlane.position.y = 28;
