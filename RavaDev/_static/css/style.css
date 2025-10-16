@@ -199,7 +199,7 @@ section {
 
 .nav-links {
   display: flex;
-  gap: clamp(1rem, 3vw, 2rem);
+  gap: clamp(0.5rem, 3vw, 2rem);
   align-items: center;
   font-size: larger;
 }
@@ -209,6 +209,7 @@ section {
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
+  /* padding: 8px 4px 0 4px; góra 8px, boki 4px, dół 0 */
   border-radius: var(--radius);
   transition: var(--transition);
   position: relative;
