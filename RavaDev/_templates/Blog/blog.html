@@ -19,7 +19,7 @@ Strona główna bloga
 {% block content %}
     {% for category in categories %}
     <!-- Karta kategorii -->
-    <a href="{% url 'Blog:category' category.id %}">
+    <section>
         <div class="container glass widget-container" style="margin-bottom: 2rem;">
             <!-- Górna część: dane elementu -->
             <h4>{{ category.name }}</h4>
@@ -34,8 +34,12 @@ Strona główna bloga
                     <p>{{ category.description|truncatechars:256 }}</p>
                 </div>
                
-
+            <a  href="{% url 'Blog:category' category.id %}">
+                <button>
+                    Zobacz posty
+                </button>
+            </a>
         </div>
-    </a>
+    </section>
     {% endfor %}
 {% endblock %}
