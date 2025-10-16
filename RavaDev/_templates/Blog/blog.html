@@ -34,10 +34,8 @@ Strona główna bloga
                     <p>{{ category.description|truncatechars:256 }}</p>
                 </div>
                
-            <a  href="{% url 'Blog:category' category.id %}">
-                <button>
-                    Zobacz posty
-                </button>
+            <a class="btn" href="{% url 'Blog:category' category.id %}">
+                Zobacz posty
             </a>
         </div>
     </section>
