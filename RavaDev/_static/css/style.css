@@ -131,6 +131,7 @@ h2 {
   padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
+
 div {
   padding: 0.2em;
   margin: 0.5em;
@@ -1125,3 +1126,22 @@ img:hover {
     var(--shadow),
     var(--primary-glow);
 }
+
+
+main a {
+  color: var(--primary) !important;
+}
+
+
+main a:visited {
+  color: #888 !important;
+}
+
+
+main a:hover {
+  color: var(--secondary);
+}
+
+
+
+
