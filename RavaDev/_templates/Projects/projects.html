@@ -17,7 +17,7 @@ Nasze realizacje
     <div class="projects-grid">
 {% for project in projects %}
     <!-- Karta projektu -->
-    <a href="{% url 'Projects:project_detail' project.id %}">
+    <section>
         <div class="container glass widget-container">
             
             <!-- Górna część: dane elementu -->
@@ -42,10 +42,12 @@ Nasze realizacje
                     <p>{{ project.description|truncatechars:256 }}</p>
                     <a href="{% url 'Projects:project_detail' project.id %}">Zobacz projekt</a>
                 </div>
-                
+                <a class="btn" href="{% url 'Projects:project_detail' project.id %}">
+                    Zapoznaj się z projektem
+                </a>
             </div>
         </div>
-    </a>
+    </section>
 {% endfor %}
     </div>
 </div>

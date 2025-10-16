@@ -21,16 +21,18 @@ Poznaj listę naszych usług
     
     {% for service in services %}{% if service.field == field %}
     <!-- Karta usługi -->
-    <a href="{% url 'Services:service_detail' service.id %}">
+    <section>
         <div class="container glass widget-container service-card">
             <div class="service-header">
 
                 <h3 class="service-title">{{ service.title }}</h3>
             </div>
-
+            <a class="btn" href="{% url 'Services:service_detail' service.id %}">
+                Dowiedz się więcej
+            </a>
 
         </div>
-    </a>
+    </section>
     {% endif %}{% endfor %}
 </div>
 {% endfor %}
