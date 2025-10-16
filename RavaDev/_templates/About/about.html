@@ -30,7 +30,7 @@
         <div class="team-members">
             {% for member in team %}
                 <!-- Karta członka zespołu -->
-                <a href="{% url 'About:team_member' member.id %}">
+                <section>
                     <div class="container glass widget-container">
                         
                         <!-- Górna część: dane elementu -->
@@ -54,10 +54,12 @@
                                 <p>Stopień: <strong>{{ member.degree }}</strong></p>
                                 <p>{{ member.bio|truncatechars:256 }}</p>
                             </div>
-                            
+                            <a class="btn" href="{% url 'About:team_member' member.id %}">
+                                Poznaj pracownika
+                            </a>
                         </div>
                     </div>
-                </a>
+                </section>
             {% endfor %}
         </div>
     </div>
