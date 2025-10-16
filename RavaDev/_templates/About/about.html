@@ -54,11 +54,12 @@
                                 <p>Stopień: <strong>{{ member.degree }}</strong></p>
                                 <p>{{ member.bio|truncatechars:256 }}</p>
                             </div>
-                            <a class="btn" href="{% url 'About:team_member' member.id %}">
-                                Poznaj pracownika
-                            </a>
+                            
                         </div>
                     </div>
+                    <a class="btn" href="{% url 'About:team_member' member.id %}">
+                                Poznaj pracownika
+                            </a>
                 </section>
             {% endfor %}
         </div>

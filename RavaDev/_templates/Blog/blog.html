@@ -34,10 +34,11 @@ Strona główna bloga
                     <p>{{ category.description|truncatechars:256 }}</p>
                 </div>
                
-            <a class="btn" href="{% url 'Blog:category' category.id %}">
+            
+        </div>
+        <a class="btn" href="{% url 'Blog:category' category.id %}">
                 Zobacz posty
             </a>
-        </div>
     </section>
     {% endfor %}
 {% endblock %}

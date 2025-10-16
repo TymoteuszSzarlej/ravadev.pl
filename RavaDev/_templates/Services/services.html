@@ -27,11 +27,12 @@ Poznaj listę naszych usług
 
                 <h3 class="service-title">{{ service.title }}</h3>
             </div>
-            <a class="btn" href="{% url 'Services:service_detail' service.id %}">
-                Dowiedz się więcej
-            </a>
+            
 
         </div>
+        <a class="btn" href="{% url 'Services:service_detail' service.id %}">
+                Dowiedz się więcej
+            </a>
     </section>
     {% endif %}{% endfor %}
 </div>

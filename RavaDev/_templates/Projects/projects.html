@@ -42,11 +42,12 @@ Nasze realizacje
                     <p>{{ project.description|truncatechars:256 }}</p>
                     <a href="{% url 'Projects:project_detail' project.id %}">Zobacz projekt</a>
                 </div>
-                <a class="btn" href="{% url 'Projects:project_detail' project.id %}">
-                    Zapoznaj się z projektem
-                </a>
+                
             </div>
         </div>
+        <a class="btn" href="{% url 'Projects:project_detail' project.id %}">
+                    Zapoznaj się z projektem
+                </a>
     </section>
 {% endfor %}
     </div>
