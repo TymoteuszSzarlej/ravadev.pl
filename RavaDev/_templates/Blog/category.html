@@ -29,7 +29,7 @@ Posty należące do kategorii
     </p>
     {% for post in posts %}
     <!-- Karta posta bloga -->
-    <a href="{% url 'Blog:post' post.id %}">
+    <section>
         <div class="container glass widget-container">
             
             <!-- Górna część: dane elementu -->
@@ -63,7 +63,10 @@ Posty należące do kategorii
                 
             </div>
         </div>
-    </a>
+        <a class="btn" href="{% url 'Blog:post' post.id %}">
+                    Czytaj dalej
+                </a>
+    </section>
 {% endfor %}
 
 {% endblock %}

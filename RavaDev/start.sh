@@ -1,3 +1,5 @@
+
+
 #!/bin/bash
 
 
@@ -15,8 +17,7 @@ python manage.py makemigrations
 python manage.py migrate
 
 
-clear
-
+echo '\n\n\n\n'
 
 python manage.py runserver 8001
 
