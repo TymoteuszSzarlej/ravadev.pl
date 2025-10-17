@@ -1,4 +1,10 @@
 #!/bin/bash
+
+
+git pull
+git push
+
+
 	
 clear
 source .venv/bin/activate
