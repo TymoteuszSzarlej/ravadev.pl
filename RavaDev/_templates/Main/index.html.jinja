@@ -105,9 +105,11 @@
                             
                             <div class="service-content">
                                 <div class="service-image">
-                                    <img src="{{ service.icon.url }}" 
+                                {% if service.image1 %}
+                                    <img src="{{ service.image1.url }}" 
                                          alt="Ikona {{ service.name }}" 
                                          class="service-icon">
+                                {% endif %}
                                 </div>
                                 
                                 <div class="service-info">
@@ -336,4 +338,12 @@
         });
     });
 </script>
+{% endblock %}
+{% block extra_css %}
+<style>
+img.service-image {
+    width: 100px;
+    height: 100px;
+}
+</style>
 {% endblock %}
